@@ -1,21 +1,13 @@
 package com.backend.entities;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.backend.enums.AppRole;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import jakarta.persistence.CascadeType;
+import com.backend.enums.RoleType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,14 +29,10 @@ public class Role {
 	@ToString.Exclude
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role_name")
-	private AppRole roleName;
+	private RoleType roleName;
 	
-	@ToString.Exclude
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	@JsonBackReference
-	private Set<User> users = new HashSet<>();
 	
-	public Role(AppRole role) {
+	public Role(RoleType roleName) {
 		this.roleName=roleName;
 	}
 	

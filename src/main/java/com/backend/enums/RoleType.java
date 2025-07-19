@@ -1,7 +1,7 @@
 package com.backend.enums;
 
-public enum AppRole {
-	ROLE_USER,
+public enum RoleType {
+	ROLE_CUSTOMER,
 	ROLE_PROVIDER,
 	ROLE_ADMIN,
 }
