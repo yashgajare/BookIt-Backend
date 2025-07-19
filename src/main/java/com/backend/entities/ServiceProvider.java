@@ -16,6 +16,9 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "service_providers", uniqueConstraints = {
+		@UniqueConstraint(columnNames = "email")
+})
 public class ServiceProvider {
 
     @Id

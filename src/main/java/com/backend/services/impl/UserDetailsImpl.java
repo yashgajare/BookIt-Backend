@@ -25,21 +25,21 @@ public class UserDetailsImpl implements UserDetails{
 	private String email;
 	@JsonIgnore
 	private String password;
-	private boolean isActive;
+	private String mobileNumber;
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public static UserDetailsImpl build(Customer customer) {
 		Set<GrantedAuthority> authorities = customer.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))
 				.collect(Collectors.toSet());
 		
-		return new UserDetailsImpl(customer.getCustomerId(), customer.getEmail(), customer.getPassword(), customer.isActive(), authorities);
+		return new UserDetailsImpl(customer.getCustomerId(), customer.getEmail(), customer.getPassword(), customer.getMobileNumber(), authorities);
 	}
 	
 	public static UserDetailsImpl build(ServiceProvider provider) {
 		Set<GrantedAuthority> authorities = provider.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))
 				.collect(Collectors.toSet());
 		
-		return new UserDetailsImpl(provider.getProviderId(), provider.getEmail(), provider.getPassword(), provider.isActive(), authorities);
+		return new UserDetailsImpl(provider.getProviderId(), provider.getEmail(), provider.getPassword(), provider.getMobileNumber(), authorities);
 	}
 	
 	@Override

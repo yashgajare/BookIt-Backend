@@ -17,6 +17,9 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "customers", uniqueConstraints = {
+		@UniqueConstraint(columnNames = "email")
+})
 public class Customer {
 
     @Id
@@ -76,4 +79,18 @@ public class Customer {
     public void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+	public Customer(
+			@NotBlank(message = "Name is required") @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters") String name,
+			@NotBlank(message = "Email is required") @Email(message = "Invalid email format") String email,
+			@NotBlank(message = "Mobile number is required") @Pattern(regexp = "^[6-9]\\d{9}$", message = "Mobile number must be a valid 10-digit Indian number") String mobileNumber,
+			@NotBlank(message = "Password is required") @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters") String password) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.mobileNumber = mobileNumber;
+		this.password = password;
+	}
+    
+    
 }
