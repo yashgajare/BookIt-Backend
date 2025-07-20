@@ -7,6 +7,9 @@ import lombok.Setter;
 @Getter
 public class MessageResponse {
     private String message;
+    private Long messageId;
+    
+    //sdvjosndvsduv
 
     public MessageResponse(String message) {
         this.message = message;
