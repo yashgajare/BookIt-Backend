@@ -34,7 +34,8 @@ public class AuthController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	@Autowired RoleRepository roleRepository;
+	@Autowired 
+	private RoleRepository roleRepository;
 	
 //	@PostMapping("/public/login")
 //	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
