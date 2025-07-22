@@ -7,4 +7,6 @@ public interface AuthService {
 
 	public MessageResponse registerUser(SignupRequest signupRequest);
 	
+	public void generateOtp(String email);
+	
 }

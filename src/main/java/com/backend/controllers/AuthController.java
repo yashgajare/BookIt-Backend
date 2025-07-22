@@ -1,40 +1,47 @@
 package com.backend.controllers;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.dtos.MessageResponse;
-import com.backend.entities.Customer;
-import com.backend.entities.Role;
-import com.backend.enums.RoleType;
-import com.backend.repositories.CustomerRepository;
-import com.backend.repositories.ProviderRepository;
-import com.backend.repositories.RoleRepository;
-import com.backend.security.request.LoginRequest;
 import com.backend.security.request.SignupRequest;
+import com.backend.services.AuthService;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+	
+	@Autowired
+	private AuthService authService;
 	
 //	@PostMapping("/public/login")
 //	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
 //		
 //	}
 	
-//	@PostMapping("/public/register")
-//	public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest){
-//		
-//		
-//	}
+	@PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
+        try {
+            if (signupRequest.getEmail() == null && signupRequest.getMobileNumber() == null) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Please provide Email or Mobile Number"));
+            }
+
+            MessageResponse response = authService.registerUser(signupRequest);
+
+            if (response.getMessage().startsWith("Error")) {
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new MessageResponse("Internal Server Error"));
+        }
+    }
 	
 //	@PostMapping("/public/validateOtp")
 //	public ResponseEntity<?> validateOtp(@RequestParam Integer otp){
