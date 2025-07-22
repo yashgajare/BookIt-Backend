@@ -7,6 +7,8 @@ public interface AuthService {
 
 	public MessageResponse registerUser(SignupRequest signupRequest);
 	
-	public void generateOtp(String email);
+	public MessageResponse generateOtpAndSend(String email);
+
+	MessageResponse validateOtp(String email, String otp);
 	
 }

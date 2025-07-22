@@ -57,7 +57,8 @@ public class Customer {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    private boolean isVerified;
+    @Column(name = "is_verified")
+    private boolean verified = false;
     private boolean isActive;
 
     private LocalDateTime createdAt;

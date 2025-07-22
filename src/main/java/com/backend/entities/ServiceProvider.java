@@ -61,7 +61,8 @@ public class ServiceProvider {
     private Set<Role> roles;
 
     private boolean isActive;
-    private boolean isVerified;
+    @Column(name = "is_verified")
+    private boolean verified = false;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
