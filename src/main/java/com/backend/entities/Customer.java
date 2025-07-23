@@ -34,12 +34,11 @@ public class Customer {
     @Email(message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Gender is required")
     @Pattern(regexp = "MALE|FEMALE|OTHER", message = "Gender must be MALE, FEMALE, or OTHER")
     private String gender;
 
-    @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
+    @Column(nullable = true)
     private LocalDate dob;
 
     @NotBlank(message = "Mobile number is required")

@@ -13,6 +13,8 @@ import com.backend.security.request.OtpVerificationRequest;
 import com.backend.security.request.SignupRequest;
 import com.backend.services.AuthService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -26,14 +28,14 @@ public class AuthController {
 //	}
 	
 	@PostMapping("/public/register")
-    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
         try {
             if (signupRequest.getEmail() == null && signupRequest.getMobileNumber() == null) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Please provide Email or Mobile Number"));
             }
-
+            System.out.println("SignupRequest: "+ signupRequest.getEmail());
             MessageResponse response = authService.registerUser(signupRequest);
-
+            
             if (response.getMessage().startsWith("Error")) {
                 return ResponseEntity.badRequest().body(response);
             }
@@ -41,6 +43,7 @@ public class AuthController {
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
+        	e.printStackTrace();
             return ResponseEntity.internalServerError().body(new MessageResponse("Internal Server Error"));
         }
     }

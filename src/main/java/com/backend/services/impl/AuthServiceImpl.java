@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
             providerRepository.existsByEmail(signupRequest.getEmail())) {
             return new MessageResponse("Error: Email is already in use!");
         }
-
+        System.out.println("SignupRequest in service: "+ signupRequest.getEmail());
         // Create Customer entity
         Customer customer = new Customer(
                 signupRequest.getFullName(),
@@ -61,11 +61,12 @@ public class AuthServiceImpl implements AuthService {
                 signupRequest.getMobileNumber(),
                 passwordEncoder.encode(signupRequest.getPassword())
         );
+        System.out.println("Customer: "+ customer.getEmail());
 
         // Set default role
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
-
+        System.out.println("Signup strRoles: "+ signupRequest.getRole());
         if (strRoles == null || strRoles.isEmpty()) {
             Role customerRole = roleRepository.findByRoleName(RoleType.ROLE_CUSTOMER)
                     .orElseThrow(() -> new RuntimeException("Error: Default role not found."));
@@ -80,9 +81,11 @@ public class AuthServiceImpl implements AuthService {
         }
 
         customer.setRoles(roles);
+        System.out.println("Customer roles: "+ customer.getRoles());
         customerRepository.save(customer);
 
-        return generateOtpAndSend(signupRequest.getEmail());
+//        return generateOtpAndSend(signupRequest.getEmail());
+        return new MessageResponse("Proceed to Email Verification");
     }
 
 	@Override
