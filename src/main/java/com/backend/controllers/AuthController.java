@@ -1,5 +1,7 @@
 package com.backend.controllers;
 
+import com.backend.security.request.LoginRequest;
+import com.backend.security.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +24,18 @@ public class AuthController {
 	@Autowired
 	private AuthService authService;
 	
-//	@PostMapping("/public/login")
-//	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
-//		
-//	}
+	@PostMapping("/public/login")
+	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
+		try{
+			if (loginRequest.getEmail() == null && loginRequest.getPassword() == null) {
+				return ResponseEntity.badRequest().body(new MessageResponse("Please provide Email and Password"));
+			}
+			LoginResponse response = authService.loginUser(loginRequest);
+			return ResponseEntity.ok(response);
+		} catch (Exception e){
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
 	
 	@PostMapping("/public/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
