@@ -60,8 +60,9 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public LoginResponse loginUser(LoginRequest loginRequest) throws Exception {
-		if (!customerRepository.existsByEmail(loginRequest.getEmail()) ||
-				!providerRepository.existsByEmail(loginRequest.getEmail()) ){
+		System.out.println(loginRequest.getEmail());
+		
+		if (!customerRepository.existsByEmail(loginRequest.getEmail()) ){
 			throw new Exception("Message : Mail is not registered, register the email" + loginRequest.getEmail());
 		}
 		Authentication authentication;
@@ -79,7 +80,8 @@ public class AuthServiceImpl implements AuthService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-		String jwtToken = jwtUtils.getJwtFromHeader((HttpServletRequest) userDetails);
+		String jwtToken = jwtUtils.generateJwtFromUsername(userDetails);
+		System.out.println("JWT TOKEN: "+ jwtToken);
 		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 		LoginResponse response = new LoginResponse(jwtToken, userDetails.getUsername(), roles);

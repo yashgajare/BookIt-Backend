@@ -26,20 +26,20 @@ public class ProviderRegistrationController  {
 	
 	@PostMapping("/step1")
 	public ResponseEntity<?> saveBusinessInfo(@RequestBody BusinessInfoDto businessInfoDto){
-//		Long draftId=0L;
-//		try {
-//			
-//			if(businessInfoDto.getEmail()==null && businessInfoDto.getMobile_number()==null) {
-//				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//			}
-//			
-//			draftId = registrationService.saveBusinessInfo(businessInfoDto);
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//		}	
-		return null;
+		Long draftId=0L;
+		try {
+			
+			if(businessInfoDto.getEmail()==null && businessInfoDto.getMobile_number()==null) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			}
+			
+			draftId = registrationService.saveBusinessInfo(businessInfoDto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}	
+		return ResponseEntity.ok(draftId);
 	}
 //	
 //	@PostMapping("/step2/{draftId}")
