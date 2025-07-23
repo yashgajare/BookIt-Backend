@@ -2,12 +2,19 @@ package com.backend.services.impl;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import com.backend.security.jwt.JwtUtils;
+import com.backend.security.request.LoginRequest;
+import com.backend.security.response.LoginResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +51,41 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Autowired
 	private EmailService emailService;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtUtils jwtUtils;
+
+	@Override
+	public LoginResponse loginUser(LoginRequest loginRequest) throws Exception {
+		if (!customerRepository.existsByEmail(loginRequest.getEmail()) ||
+				!providerRepository.existsByEmail(loginRequest.getEmail()) ){
+			throw new Exception("Message : Mail is not registered, register the email" + loginRequest.getEmail());
+		}
+		Authentication authentication;
+		try{
+			authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+		}catch (AuthenticationException e){
+			Map<String, Object> map = new HashMap<>();
+
+			map.put("message", "Bad Credential");
+			map.put("status","false");
+
+			throw new Exception("Bad Credentials, status : false");
+		}
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+		String jwtToken = jwtUtils.getJwtFromHeader((HttpServletRequest) userDetails);
+		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+		LoginResponse response = new LoginResponse(jwtToken, userDetails.getUsername(), roles);
+
+		return response;
+	}
 
 	@Override
     public MessageResponse registerUser(SignupRequest signupRequest) {
@@ -165,5 +207,5 @@ public class AuthServiceImpl implements AuthService {
 
 
 
-	
+
 }
