@@ -18,6 +18,7 @@ import com.backend.entities.Subcategory;
 import com.backend.repositories.CategoryRepository;
 import com.backend.repositories.ProviderRepository;
 import com.backend.repositories.ServiceProviderDraftRepository;
+import com.backend.repositories.SubcategoryRepository;
 import com.backend.services.ProviderRegistrationService;
 
 
@@ -32,6 +33,9 @@ public class ProviderRegistrationServiceImpl  implements ProviderRegistrationSer
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private SubcategoryRepository subcategoryRepository;
 	
 	@Override
 	public Long saveBusinessInfo(BusinessInfoDto infoDto) {
@@ -54,7 +58,7 @@ public class ProviderRegistrationServiceImpl  implements ProviderRegistrationSer
 		List<Subcategory> subcategories = new ArrayList<>();
 		if(categoryDto.getSubcategory()!=null && !categoryDto.getSubcategory().isEmpty()) {
 			for(String sub: categoryDto.getSubcategory()) {
-				Subcategory subCategory = categoryRepository.findByNameAndCategory(sub, category)
+				Subcategory subCategory = subcategoryRepository.findByNameAndCategory(sub, category)
 						.orElseThrow(() -> new RuntimeException("Subcategory '" + sub + "' not found for category '" + category.getName() + "'"));
 				subcategories.add(subCategory);
 			}
