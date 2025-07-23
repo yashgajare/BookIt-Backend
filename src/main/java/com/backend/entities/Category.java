@@ -21,11 +21,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 
-    @NotBlank(message = "Category name is required")
     @Size(min = 2, max = 50, message = "Category name must be between 2 and 50 characters")
     private String name;
 
-    @NotBlank(message = "Icon URL is required")
     @Pattern(
         regexp = "^(http|https)://.*",
         message = "Icon URL must be a valid URL"

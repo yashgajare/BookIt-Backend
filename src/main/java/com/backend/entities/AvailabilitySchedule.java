@@ -18,15 +18,12 @@ public class AvailabilitySchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
 
-    @NotNull(message = "Day of week is required")
     @Enumerated(EnumType.STRING)
     private DayOfWeekEnum dayOfWeek;
 
-    @NotNull(message = "Start time is required")
     @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d)$", message = "Start time must be in HH:mm format")
     private String startTime;
 
-    @NotNull(message = "End time is required")
     @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d)$", message = "End time must be in HH:mm format")
     private String endTime;
 

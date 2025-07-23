@@ -37,11 +37,9 @@ public class ServiceProvider {
     @Email(message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Gender is required")
     @Pattern(regexp = "MALE|FEMALE|OTHER", message = "Gender must be MALE, FEMALE, or OTHER")
     private String gender;
 
-    @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
     private LocalDate dob;
 
@@ -56,7 +54,6 @@ public class ServiceProvider {
     @Size(max = 500, message = "Description cannot exceed 500 characters")
     private String description;
 
-    @NotEmpty(message = "At least one role must be assigned")
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 

@@ -19,7 +19,6 @@ public class PortfolioImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Image URL is required")
     @Pattern(
         regexp = "^(http|https)://.*",
         message = "Image URL must be a valid URL"
