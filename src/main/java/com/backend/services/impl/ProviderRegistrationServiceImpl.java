@@ -11,11 +11,15 @@ import com.backend.dtos.BusinessAddressDto;
 import com.backend.dtos.BusinessCategoryDto;
 import com.backend.dtos.BusinessInfoDto;
 import com.backend.dtos.PortfolioImageDto;
+import com.backend.entities.Address;
 import com.backend.entities.Category;
+import com.backend.entities.Customer;
 import com.backend.entities.ServiceProvider;
 import com.backend.entities.ServiceProviderDraft;
 import com.backend.entities.Subcategory;
+import com.backend.exceptions.ResourceNotFoundException;
 import com.backend.repositories.CategoryRepository;
+import com.backend.repositories.CustomerRepository;
 import com.backend.repositories.ProviderRepository;
 import com.backend.repositories.ServiceProviderDraftRepository;
 import com.backend.repositories.SubcategoryRepository;
@@ -35,13 +39,16 @@ public class ProviderRegistrationServiceImpl  implements ProviderRegistrationSer
 	private CategoryRepository categoryRepository;
 	
 	@Autowired
+	private CustomerRepository customerRepository;
+	
+	@Autowired
 	private SubcategoryRepository subcategoryRepository;
 	
 	@Override
 	public Long saveBusinessInfo(BusinessInfoDto infoDto) {
-		ServiceProvider provider = providerRepository.findById(infoDto.getProviderId()).orElseThrow(() -> new RuntimeException("Provider not found"));
+		Customer customer= customerRepository.findById(infoDto.getCustomerId()).orElseThrow(() -> new RuntimeException("Customer not found"));
 		ServiceProviderDraft draft = new ServiceProviderDraft();
-		draft.setProvider_id(provider.getProviderId());
+		draft.setProvider_id(customer.getCustomerId());
 		draft.setBusinessName(infoDto.getBusinessName());
 		draft.setEmail(infoDto.getEmail());
 		draft.setMobileNumber(infoDto.getMobile_number());
@@ -52,14 +59,14 @@ public class ProviderRegistrationServiceImpl  implements ProviderRegistrationSer
 
 	@Override
 	public String saveBusinessCategory(BusinessCategoryDto categoryDto) {
-		ServiceProviderDraft draft = draftRepository.findById(categoryDto.getProvider_id()).orElseThrow(() -> new RuntimeException("Provider not found"));
-		Category category = categoryRepository.findById(categoryDto.getCategory_id()).orElseThrow(() -> new RuntimeException("Category not found"));
+		ServiceProviderDraft draft = draftRepository.findById(categoryDto.getProvider_id()).orElseThrow(() -> new ResourceNotFoundException("Provider not found"));
+		Category category = categoryRepository.findById(categoryDto.getCategory_id()).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 		
 		List<Subcategory> subcategories = new ArrayList<>();
 		if(categoryDto.getSubcategory()!=null && !categoryDto.getSubcategory().isEmpty()) {
 			for(String sub: categoryDto.getSubcategory()) {
 				Subcategory subCategory = subcategoryRepository.findByNameAndCategory(sub, category)
-						.orElseThrow(() -> new RuntimeException("Subcategory '" + sub + "' not found for category '" + category.getName() + "'"));
+						.orElseThrow(() -> new ResourceNotFoundException("Subcategory '" + sub + "' not found for category '" + category.getName() + "'"));
 				subcategories.add(subCategory);
 			}
 			draft.setSubcategories(subcategories);
@@ -72,8 +79,18 @@ public class ProviderRegistrationServiceImpl  implements ProviderRegistrationSer
 
 	@Override
 	public String saveBusinessAddress(BusinessAddressDto addressDto) {
-		// TODO Auto-generated method stub
-		return null;
+		ServiceProviderDraft draft = draftRepository.findById(addressDto.getProviderId()).orElseThrow(() -> new ResourceNotFoundException("Provider not found"));
+		String addressLine = addressDto.getAddressLine1() != null ? 
+				addressDto.getAddressLine1() : "" + addressDto.getAddressLine2() != null ?
+						addressDto.getAddressLine2() : "";
+		Address address = new Address();
+		address.setAddressLine(addressLine);
+		address.setCity(addressDto.getCity());
+		address.setState(addressDto.getState());
+		address.setPincode(addressDto.getPincode());
+		draft.setBusinessAddress(address);
+		draftRepository.save(draft);
+		return "Address saved successfully";
 	}
 
 	@Override

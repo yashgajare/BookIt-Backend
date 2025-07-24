@@ -64,9 +64,11 @@ public class ServiceProvider {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @Column(name = "avg_rating")
     private Double avgRating;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address businessAddress;
 
     @ManyToOne

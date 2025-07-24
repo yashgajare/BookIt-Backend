@@ -31,14 +31,17 @@ public class Review {
 
     @NotNull(message = "Customer is required")
     @ManyToOne
+    @JoinColumn(name="customer_id")
     private Customer customer;
 
     @NotNull(message = "Provider is required")
     @ManyToOne
+    @JoinColumn(name="provider_id")
     private ServiceProvider provider;
 
     @NotNull(message = "Service is required")
     @ManyToOne
+    @JoinColumn(name="service_id")
     private ServiceOffered service;
 
     @PrePersist

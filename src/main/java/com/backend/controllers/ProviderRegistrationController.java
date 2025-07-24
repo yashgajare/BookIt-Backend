@@ -41,11 +41,12 @@ public class ProviderRegistrationController  {
 		}	
 		return ResponseEntity.ok(draftId);
 	}
-//	
-//	@PostMapping("/step2/{draftId}")
-//	public ResponseEntity<?> saveBusinessCategory(@RequestBody BusinessCategoryDto categoryDto){
-//		
-//	}
+	
+	@PostMapping("/step2/{draftId}")
+	public ResponseEntity<?> saveBusinessCategory(@RequestBody BusinessCategoryDto categoryDto){
+		String result = registrationService.saveBusinessCategory(categoryDto);
+        return ResponseEntity.ok(result);
+	}
 //	
 //	@PostMapping("/step3/{draftId}")
 //	public ResponseEntity<?> saveBusinessAddress(@RequestBody BusinessAddressDto addressDto){

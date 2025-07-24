@@ -3,6 +3,7 @@ package com.backend.controllers;
 import com.backend.entities.ServiceProvider;
 import com.backend.services.ServiceProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +18,9 @@ public class ServiceProviderController {
     private ServiceProviderService service;
 
     @GetMapping("/topExperts")
-    public List<ServiceProvider> getTopExperts(){
+    public ResponseEntity<List<ServiceProvider>> getTopExperts(){
 
-        List<ServiceProvider> topExperts = service.getTopExperts();
-        return topExperts;
+    	ResponseEntity<List<ServiceProvider>> topExperts;
+        return null;
     }
 }
