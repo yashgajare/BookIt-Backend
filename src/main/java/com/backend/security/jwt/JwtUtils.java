@@ -41,7 +41,7 @@ public class JwtUtils {
 		}
 		return null;
 	}
-	
+
 	public String generateJwtFromUsername(UserDetailsImpl userDetails) {
 		String username = userDetails.getUsername();
 		String roles = userDetails.getAuthorities().stream().map(authority -> authority.getAuthority()).collect(Collectors.joining(","));
@@ -71,6 +71,7 @@ public class JwtUtils {
 	
 	public boolean validateJwtToken(String token) {
 		try {
+			System.out.println("Incoming JWT: " + token);
 			System.out.println("Validate");
 			Jwts.parser().verifyWith((SecretKey) key()).build().parseSignedClaims(token);
 			return true;

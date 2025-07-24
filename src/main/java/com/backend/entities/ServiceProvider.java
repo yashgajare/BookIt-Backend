@@ -64,6 +64,8 @@ public class ServiceProvider {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private Double avgRating;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Address businessAddress;
 
