@@ -1,5 +1,7 @@
 package com.backend.entities;
 
+import java.time.LocalTime;
+
 import com.backend.enums.DayOfWeekEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -21,13 +23,10 @@ public class AvailabilitySchedule {
     @Enumerated(EnumType.STRING)
     private DayOfWeekEnum dayOfWeek;
 
-    @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d)$", message = "Start time must be in HH:mm format")
-    private String startTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
-    @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d)$", message = "End time must be in HH:mm format")
-    private String endTime;
-
-    @NotNull(message = "Provider is required")
     @ManyToOne
+    @JoinColumn(name = "provider_id")
     private ServiceProvider provider;
 }

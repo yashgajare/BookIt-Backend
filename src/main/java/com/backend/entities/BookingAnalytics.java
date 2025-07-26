@@ -31,5 +31,6 @@ public class BookingAnalytics {
 
     @NotNull(message = "Service provider is required")
     @ManyToOne
+    @JoinColumn(name = "provider_id")
     private ServiceProvider provider;
 }

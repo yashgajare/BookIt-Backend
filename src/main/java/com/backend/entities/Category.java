@@ -33,6 +33,4 @@ public class Category {
     @Size(max = 255, message = "Description cannot exceed 255 characters")
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<ServiceProvider> providers;
 }

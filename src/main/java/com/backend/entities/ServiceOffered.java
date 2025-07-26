@@ -39,6 +39,7 @@ public class ServiceOffered {
 
     @NotNull(message = "Provider is required")
     @ManyToOne
+    @JoinColumn(name = "provider_id")
     private ServiceProvider provider;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)

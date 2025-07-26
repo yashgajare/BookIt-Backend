@@ -37,6 +37,7 @@ public class Appointment {
 
     @NotNull(message = "Provider is required")
     @ManyToOne
+    @JoinColumn(name = "provider_id")
     private ServiceProvider provider;
 
     @NotNull(message = "Service is required")

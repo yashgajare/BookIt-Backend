@@ -47,11 +47,12 @@ public class ProviderRegistrationController  {
 		String result = registrationService.saveBusinessCategory(categoryDto);
         return ResponseEntity.ok(result);
 	}
-//	
-//	@PostMapping("/step3/{draftId}")
-//	public ResponseEntity<?> saveBusinessAddress(@RequestBody BusinessAddressDto addressDto){
-//		
-//	}
+	
+	@PostMapping("/step3/{draftId}")
+	public ResponseEntity<?> saveBusinessAddress(@RequestBody BusinessAddressDto addressDto){
+		String result = registrationService.saveBusinessAddress(addressDto);
+		return ResponseEntity.ok(result);
+	}
 //	
 //	@PostMapping("/step4/{draftId}")
 //	public ResponseEntity<?> saveBusinessAvailabiltySchedule(@RequestBody AvailabilityScheduleDto scheduleDto){
