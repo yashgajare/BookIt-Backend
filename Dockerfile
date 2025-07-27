@@ -13,9 +13,6 @@ RUN mvn clean package -DskipTests
 # Use lightweight JDK image to run the app
 FROM eclipse-temurin:17-jdk-alpine
 
-# Set working directory
-# WORKDIR /app
-
 # Copy the built jar file from the previous stage
 COPY --from=build /app/target/*.jar app.jar
 
