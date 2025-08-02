@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build the application
-RUN mvn clean package -DskipTests
+RUN mvn clean package
 
 # Use lightweight JDK image to run the app
 FROM eclipse-temurin:17-jdk-alpine

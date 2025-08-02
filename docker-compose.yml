@@ -14,7 +14,10 @@ services:
       - mysql_data:/var/lib/mysql
 
   backend:
-    build: .
+    image: vikas7974/bookit-backend-feature-project_structure-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: bookit-backend
     depends_on:
       - mysql
