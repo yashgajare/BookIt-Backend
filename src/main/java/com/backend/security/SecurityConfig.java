@@ -33,12 +33,12 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 		http
 		.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				.ignoringRequestMatchers("/api/auth/public/**"))
+				.ignoringRequestMatchers("/auth/public/**"))
 		.cors(Customizer.withDefaults()) 
         .httpBasic(Customizer.withDefaults())
         .authorizeHttpRequests(authorize -> authorize
-        		.requestMatchers("/api/csrf-token").permitAll()
-        		.requestMatchers("/api/auth/public/**").permitAll()
+        		.requestMatchers("/csrf-token").permitAll()
+        		.requestMatchers("/auth/public/**").permitAll()
         		.anyRequest().authenticated())
         .exceptionHandling(exception ->exception.authenticationEntryPoint(unauthorizedHandler))
 		.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
