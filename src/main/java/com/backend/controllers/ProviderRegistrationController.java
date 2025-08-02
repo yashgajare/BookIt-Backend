@@ -18,7 +18,7 @@ import com.backend.dtos.PortfolioImageDto;
 import com.backend.services.ProviderRegistrationService;
 
 @RestController
-@RequestMapping("/api/business-registration")
+@RequestMapping("/business-registration")
 public class ProviderRegistrationController  {
 
 	@Autowired

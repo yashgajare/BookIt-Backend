@@ -13,10 +13,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ApiResponse {
+public class ApiResponse<T> {
 	
 	private String message;
-	private Boolean success;
-	private HttpStatus status;
+    private HttpStatus status;
+    private String error;
+    private T data;
+	/**
+	 * @param message
+	 * @param status
+	 * @param error
+	 */
+	public ApiResponse(String message, HttpStatus status, String error) {
+		this.message = message;
+		this.status = status;
+		this.error = error;
+	}
+    
+    
 	
 }
