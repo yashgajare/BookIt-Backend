@@ -29,7 +29,5 @@ public class ApiResponse<T> {
 		this.status = status;
 		this.error = error;
 	}
-    
-    
-	
+
 }
